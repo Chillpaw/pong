@@ -2,10 +2,7 @@ pub mod systems;
 
 use systems::*;
 
-use bevy::{
-    math::bounding::{Aabb2d, BoundingCircle, BoundingVolume, IntersectsVolume},
-    prelude::*,
-};
+use bevy::prelude::*;
 
 pub struct GamePlugin;
 
@@ -13,6 +10,7 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(Score(0))
             .insert_resource(ClearColor(BACKGROUND_COLOR))
+            //.insert_resource(Difficulty::Easy) No longer implementing difficulty as a resource but instead attaching it to the ComputerState on each paddle
             .add_event::<CollisionEvent>()
             .add_systems(Startup, setup)
             .add_systems(
@@ -20,6 +18,7 @@ impl Plugin for GamePlugin {
                 (
                     apply_velocity,
                     player_movement,
+                    update_computer_targets,
                     computer_movement,
                     check_for_collisions,
                 )

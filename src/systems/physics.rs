@@ -1,4 +1,4 @@
-use crate::Score;
+//use crate::Score;
 use crate::constants::*;
 use bevy::math::bounding::{Aabb2d, BoundingCircle, BoundingVolume, IntersectsVolume};
 use bevy::prelude::*;
@@ -35,15 +35,15 @@ pub fn apply_velocity(mut query: Query<(&mut Transform, &Velocity)>, time: Res<T
 }
 
 pub fn check_for_collisions(
-    mut commands: Commands,
-    mut score: ResMut<Score>,
+    //mut commands: Commands,
+    //mut score: ResMut<Score>,
     ball_query: Single<(&mut Velocity, &Transform), With<Ball>>,
     collider_query: Query<(Entity, &Transform), With<Collider>>,
     mut collision_events: EventWriter<CollisionEvent>,
 ) {
     let (mut ball_velocity, ball_transform) = ball_query.into_inner();
 
-    for (collider_entity, collider_transform) in &collider_query {
+    for (_collider_entity, collider_transform) in &collider_query {
         let collision = ball_collision(
             BoundingCircle::new(ball_transform.translation.truncate(), BALL_DIAMETER / 2.),
             Aabb2d::new(

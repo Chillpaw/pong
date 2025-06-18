@@ -1,5 +1,7 @@
+use crate::ai::ComputerState;
 use crate::constants::*;
 use crate::physics::*;
+use crate::systems::Difficulty;
 use bevy::prelude::*;
 
 #[derive(Resource, Deref, DerefMut)]
@@ -62,14 +64,14 @@ pub fn setup(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>,
-    asset_server: Res<AssetServer>,
+    //asset_server: Res<AssetServer>,
+    //difficulty: Res<Difficulty>,
 ) {
     commands.spawn(Camera2d);
     //TODO: make collision sound
     //let ball_collision_sound = asset_server.load("sounds/pong_collision.ogg");
     //let bgm = asset_server.load("sounds/pong_bgm");
 
-    let paddle = meshes.add(Rectangle::new(1.0, 1.0));
     let ball = meshes.add(Circle::new(BALL_DIAMETER));
     let paddle_x = LEFT_WALL + WALL_THICKNESS + PADDLE_PADDING;
 
@@ -83,7 +85,8 @@ pub fn setup(
         },
         Paddle,
         Collider,
-        Player,
+        Computer,
+        ComputerState::new(Difficulty::Medium),
     ));
     //spawn computer paddle
     commands.spawn((
@@ -96,6 +99,7 @@ pub fn setup(
         Paddle,
         Collider,
         Computer,
+        ComputerState::new(Difficulty::Medium),
     ));
     //spawn ball
     commands.spawn((
